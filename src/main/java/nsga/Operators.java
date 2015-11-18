@@ -1,5 +1,8 @@
 package nsga;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,5 +23,28 @@ public class Operators {
     public static double crowdingOperator(List<Agent> front, Agent agent) {
         //TODO
         return 0;
+    }
+
+    /**
+     * simplest crossover I could find. two go in, two new come out for a total of 4.
+     *
+     * @param parent1
+     * @param parent2
+     * @return
+     */
+    public static Pair<List<Double>, List<Double>> singlePointCrossover(List<Double> parent1, List<Double> parent2) {
+        int size = parent1.size();
+        int cutoff = size / 2; //it might clip things after the comma if it's not even, I'm cool with that.
+        List<Double> child1 = new ArrayList<>();
+        List<Double> child2 = new ArrayList<>();
+        for (int i = 0; i < cutoff; i++) { //for ZDT - 0:13
+            child1.add(parent1.get(i));
+            child2.add(parent2.get(i));
+        }
+        for (int i = cutoff; i < size; i++) { //for ZDT - 14:29, total - 30, that's good.
+            child1.add(parent2.get(i));
+            child2.add(parent1.get(i));
+        }
+        return Pair.of(child1, child2);
     }
 }
