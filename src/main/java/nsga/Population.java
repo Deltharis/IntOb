@@ -7,17 +7,22 @@ import java.util.Queue;
 /**
  * Created by Delth on 18.11.2015.
  */
-public abstract class Population {
+public abstract class Population<T extends Agent> {
 
-    private List<Agent> agents;
-    private Queue<List<Agent>> fronts = new LinkedList<>();
+    protected List<T> agents;
+    protected Queue<List<T>> fronts = new LinkedList<>();
 
     public abstract Population generatePopulation(int size);
     public abstract void sort();
     public abstract Population generateChildPopulation();
     public abstract Population add(Population addend);
-    public void add(Agent a){
+
+    public void add(T a) {
         agents.add(a);
+    }
+
+    public List<T> getAgents() {
+        return agents;
     }
 
 
@@ -25,7 +30,7 @@ public abstract class Population {
         return agents.size();
     }
 
-    public List<Agent> getNextFront(){
+    public List<T> getNextFront() {
         return fronts.poll();
     }
 }

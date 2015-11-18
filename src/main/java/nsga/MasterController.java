@@ -10,16 +10,16 @@ public abstract class MasterController {
 
     protected static final int POPULATION_SIZE = 10;
 
-    private Population currentPopulation;
-    private Population childPopulation;
-    private Population sum;
-    private Population nextPopulation;
-    private boolean endCondition = false;
+    protected Population currentPopulation;
+    protected Population childPopulation;
+    protected Population sum;
+    protected Population nextPopulation;
+    protected boolean endCondition = false;
 
 
     public void start() {
         init();
-        while (!endCondition) {
+        while (!endCondition) { //TODO no end condition?
             step1();
             step2();
             List<Agent> leftOverFront = step3();
@@ -89,7 +89,7 @@ public abstract class MasterController {
      */
     private void step4(List<Agent> front) {
         if (nextPopulation.getSize() != POPULATION_SIZE) {
-            Queue<Agent> queue = crowdedSort(front);
+            Queue<Agent> queue = crowdingSort(front);
             while (nextPopulation.getSize() != POPULATION_SIZE) {
                 nextPopulation.add(queue.poll());
             }
@@ -108,7 +108,7 @@ public abstract class MasterController {
     }
 
 
-    abstract Population newRandomPopulation(int size);
+    protected abstract Population newRandomPopulation(int size);
 
-    abstract Queue<Agent> crowdedSort(List<Agent> list);
+    protected abstract Queue<Agent> crowdingSort(List<Agent> list);
 }

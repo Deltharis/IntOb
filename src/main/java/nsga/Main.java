@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args){
         System.out.println("We're live!");
+        MasterController masterController; //TODO implement concrete thing and start
 
 
     }
