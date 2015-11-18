@@ -12,13 +12,18 @@ import java.util.Random;
  * <p>
  * Created by Delth on 18.11.2015.
  */
-public class ZDTPopulation extends Population<ZDTAgent> {
+public abstract class ZDTPopulation extends Population<ZDTAgent> {
     @Override
-    public Population generatePopulation(int size) {
-        //TODO find a way to make this method work for whatever agent, or just implement in subclasses
-        //oh, and use randomDoubleList, cause why not
-        return null;
+    public void initializePopulation(int size) {
+        for (int i = 0; i < size; i++) {
+            ZDTAgent agent = createCorrectAgent();
+            List<Double> genotype = randomDoubleList(ZDTAgent.NUMBER_OF_ARGUMENTS);
+            agent.setGenotype(genotype);
+            agents.add(agent);
+        }
     }
+
+    protected abstract ZDTAgent createCorrectAgent();
 
     protected ArrayList<Double> randomDoubleList(int n) {
         ArrayList<Double> list = new ArrayList<>();
@@ -59,10 +64,7 @@ public class ZDTPopulation extends Population<ZDTAgent> {
     }
 
     @Override
-    public Population generateChildPopulation() {
-        //TODO find a way to make this method work for whatever agent, or just implement in subclasses
-        return null;
-    }
+    public abstract Population generateChildPopulation();
 
     //TODO #lowpriority make this method return a copy maybe? or create a method for copy? would be prittier. Should work either way.
     @Override

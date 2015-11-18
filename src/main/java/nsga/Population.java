@@ -12,7 +12,7 @@ public abstract class Population<T extends Agent> {
     protected List<T> agents;
     protected Queue<List<T>> fronts = new LinkedList<>();
 
-    public abstract Population generatePopulation(int size);
+    public abstract void initializePopulation(int size);
     public abstract void sort();
     public abstract Population generateChildPopulation();
     public abstract Population add(Population addend);

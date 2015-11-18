@@ -82,4 +82,12 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
         }
 
     }
+
+    public List<Double> getGenotype() {
+        return genotype;
+    }
+
+    public void setGenotype(List<Double> genotype) {
+        this.genotype = genotype;
+    }
 }
