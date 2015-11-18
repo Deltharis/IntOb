@@ -8,16 +8,15 @@ import java.util.List;
 /**
  * Not sure if double is enough - maybe will need to change to something better? //TODO #lowpriority
  * Don't know how to make it so that interface has comparable and it knows it can only compare ZDTAgents //TODO #lowpriority
- * Probably needs a configurable amount of arguments in genotype? Dunno, didn't find it in the doc. //TODO
  * <p>
  * Created by Delth on 18.11.2015.
  */
 public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
 
-    public static final int NUMBER_OF_ARGUMENTS = 4;
+    public static final int NUMBER_OF_ARGUMENTS = 30; //defined in definition, same for 1-3
 
-    private List<Double> genotype;
-    private Pair<Double, Double> fitness;
+    protected List<Double> genotype;
+    protected Pair<Double, Double> fitness;
 
     /**
      * needs to be MINIMIZED. Maybe minus signs to make it work as normal? Not sure.
@@ -53,9 +52,9 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
         return g * h;
     }
 
-    protected abstract double h(double f1, double g); //TODO for ZDT1-3
+    protected abstract double h(double f1, double g);
 
-    protected abstract double g(); //TODO for ZDT1-3
+    protected abstract double g();
 
 
     /**
