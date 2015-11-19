@@ -1,5 +1,7 @@
 package nsga;
 
+import java.util.List;
+
 /**
  * Created by Delth on 18.11.2015.
  * <p>
@@ -7,6 +9,6 @@ package nsga;
  */
 
 public interface Agent {
-
-
+    List<Double> getGenotype();
+    Double getCrowdingDistance();
 }

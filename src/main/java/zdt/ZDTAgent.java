@@ -3,6 +3,7 @@ package zdt;
 import nsga.Agent;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
 
     protected List<Double> genotype;
     protected Pair<Double, Double> fitness;
+    protected Double crowdingDistance;
 
     /**
      * needs to be MINIMIZED. Maybe minus signs to make it work as normal? Not sure.
@@ -31,7 +33,7 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
     }
 
     /**
-     * asdded minus signs. The bigger the better
+     * added minus signs. The bigger the better
      *
      * @return
      */
@@ -43,7 +45,7 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
     }
 
     private Double f1() {
-        return genotype.get(0); //not true for ZDT5 and ZDT6, don't care
+        return genotype.get(0); //not true for ZDT5 and ZDT6, don't care (YET!)
     }
 
     protected Double f2() {
@@ -55,7 +57,6 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
     protected abstract double h(double f1, double g);
 
     protected abstract double g();
-
 
     /**
      * needs to indicate Domination, as definition 1.2 shows it
@@ -80,14 +81,48 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
         } else {
             return 0;
         }
-
     }
 
+    /**
+     * { r(i) < r(j)   ∨   ( d(i) > d(j)  ∧  r(i) = r(j) ) }.
+     *
+     * "Zgodnie z pierwszą częścią warunku, zwycięzcą turnieju staje się osobnik charakteryzowany przez niższy
+     * stopień zdominowania. W myśl zaś drugiej części warunku, w przypadku gdy osobniki charakteryzowane są
+     * przez ten sam stopień zdominowania (są zlokalizowane na tym samym n-froncie), zwycięzcą staje się
+     * osobnik zlokalizowany w mniej zatłoczonym fragmencie przestrzeni przeszukiwań."
+     */
+    public static class CrowdedTournamentSelectionComparator implements Comparator<ZDTAgent> {
+        @Override
+        public int compare(ZDTAgent o1, ZDTAgent o2) {
+            if (o1.compareTo(o2) == 1)
+                return 1;
+            else if (o1.compareTo(o2) == -1)
+                return -1;
+            else if (o1.compareTo(o2) == 0) {
+                if (o1.getCrowdingDistance() < o2.getCrowdingDistance())
+                    return 1;
+                else if (o1.getCrowdingDistance() > o2.getCrowdingDistance())
+                    return -1;
+            }
+            return 0;
+        }
+    }
+
+    @Override
     public List<Double> getGenotype() {
         return genotype;
     }
 
     public void setGenotype(List<Double> genotype) {
         this.genotype = genotype;
+    }
+
+    @Override
+    public Double getCrowdingDistance(){
+        return crowdingDistance;
+    }
+
+    public void setCrowdingDistance(Double crowdingDistance) {
+        this.crowdingDistance = crowdingDistance;
     }
 }

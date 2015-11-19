@@ -66,7 +66,7 @@ public abstract class ZDTPopulation extends Population<ZDTAgent> {
     @Override
     public abstract Population generateChildPopulation();
 
-    //TODO #lowpriority make this method return a copy maybe? or create a method for copy? would be prittier. Should work either way.
+    //TODO #lowpriority make this method return a copy maybe? or create a method for copy? would be prettier. Should work either way.
     @Override
     public Population add(Population addend) {
         if (!(addend instanceof ZDTPopulation)) {
