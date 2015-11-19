@@ -35,7 +35,7 @@ public class Operators {
      */
     public static Pair<List<Double>, List<Double>> singlePointCrossover(List<Double> parent1, List<Double> parent2) {
         int size = parent1.size();
-        int cutoff = size / 2; //it might clip things after the comma if it's not even, I'm cool with that.
+        int cutoff = size / 2; //it might clip things after the comma if it's not even, I'm cool with that. for ZDT - 14 I think?
         List<Double> child1 = new ArrayList<>();
         List<Double> child2 = new ArrayList<>();
         for (int i = 0; i < cutoff; i++) { //for ZDT - 0:13
@@ -64,7 +64,7 @@ public class Operators {
     public static List<Double> mutate(List<Double> genotype) {
         Random r = new Random();
         int whichOne = r.nextInt(genotype.size() - 1); //choose which value to mutate
-        genotype.set(whichOne, r.nextDouble());
+        genotype.set(whichOne, r.nextDouble()); //mutate
         return genotype;
 
     }
