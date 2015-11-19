@@ -1,4 +1,6 @@
-package zdt;
+package zdt.zdt1;
+
+import zdt.ZDTAgent;
 
 /**
  * Created by Delth on 18.11.2015.

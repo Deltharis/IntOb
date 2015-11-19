@@ -1,6 +1,8 @@
-package zdt;
+package zdt.zdt1;
 
 import nsga.Population;
+import zdt.ZDTAgent;
+import zdt.ZDTPopulation;
 
 /**
  * Created by Delth on 18.11.2015.

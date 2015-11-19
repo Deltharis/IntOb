@@ -1,12 +1,14 @@
-package zdt;
+package zdt.zdt3;
+
+import zdt.ZDTAgent;
 
 /**
  * Created by Delth on 18.11.2015.
  */
-public class ZDT2Agent extends ZDTAgent {
+public class ZDT3Agent extends ZDTAgent {
     @Override
     protected double h(double f1, double g) {
-        return (1 - Math.pow(f1 / g, 2)); //^2
+        return 1 - Math.sqrt(f1 / g) - (f1 / g) * Math.sin(18 * f1 * Math.PI);
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Delth on 18.11.2015.
@@ -46,5 +47,25 @@ public class Operators {
             child2.add(parent1.get(i));
         }
         return Pair.of(child1, child2);
+    }
+
+    /**
+     * there could probably be a lot of them, we could use some nice looking solutions with inheritance and interfaces to easily swap mutation algorythms...
+     * <p>
+     * Or we could just use that one, it'll be fine.
+     * <p>
+     * changes a randomly chosen gene to a random value.
+     * <p>
+     * It is NOT safe, might modify the argument. If it's ever not wanted - change it, see if I care.
+     *
+     * @param genotype
+     * @return
+     */
+    public static List<Double> mutate(List<Double> genotype) {
+        Random r = new Random();
+        int whichOne = r.nextInt(genotype.size() - 1); //choose which value to mutate
+        genotype.set(whichOne, r.nextDouble());
+        return genotype;
+
     }
 }
