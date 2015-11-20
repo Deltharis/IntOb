@@ -11,7 +11,7 @@ import java.util.Queue;
 public abstract class MasterController {
 
     //set as divisible by 8 for now
-    protected static final int POPULATION_SIZE = 64;
+    protected static final int POPULATION_SIZE = 128;
 
     protected Population currentPopulation;
     protected Population childPopulation;

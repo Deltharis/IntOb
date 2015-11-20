@@ -32,4 +32,9 @@ public class ZDT2Agent extends ZDTAgent {
         }
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "ZDT1Agent{fitness = " + getFitness() + " }";
+    }
 }
