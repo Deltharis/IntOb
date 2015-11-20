@@ -1,5 +1,6 @@
 package nsga;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -9,9 +10,14 @@ import java.util.Queue;
  */
 public abstract class Population<T extends Agent> {
 
-    protected List<T> agents;
+    protected List<T> agents = new ArrayList<>();
     protected Queue<List<T>> fronts = new LinkedList<>();
 
+    /**
+     * let the size be divisible by 8, or hacky children generation won't work.
+     *
+     * @param size
+     */
     public abstract void initializePopulation(int size);
     public abstract void sort();
 
@@ -42,6 +48,9 @@ public abstract class Population<T extends Agent> {
         return agents;
     }
 
+    public void setAgents(List<T> agents) {
+        this.agents = agents;
+    }
 
     public int getSize(){
         return agents.size();

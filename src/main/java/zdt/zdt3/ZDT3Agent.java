@@ -2,10 +2,19 @@ package zdt.zdt3;
 
 import zdt.ZDTAgent;
 
+import java.util.List;
+
 /**
  * Created by Delth on 18.11.2015.
  */
 public class ZDT3Agent extends ZDTAgent {
+
+    public ZDT3Agent() {
+    }
+
+    public ZDT3Agent(List<Double> genotype) {
+        setGenotype(genotype);
+    }
     @Override
     protected double h(double f1, double g) {
         return 1 - Math.sqrt(f1 / g) - (f1 / g) * Math.sin(18 * f1 * Math.PI);

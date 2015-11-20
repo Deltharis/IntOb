@@ -1,6 +1,7 @@
 package nsga;
 
 import org.apache.commons.lang3.tuple.Pair;
+import zdt.ZDTAgent;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class Operators {
      * @param agent the one we want to get crowding level for? TODO should it be in first parameter too?
      * @return
      */
-    public static double crowdingOperator(List<Agent> front, Agent agent) throws Exception {
+    public static double crowdingOperator(List<ZDTAgent> front, Agent agent) throws Exception {
         double crowdingDistance = 0.0d;
 
         List<Double> agentGenotype = agent.getGenotype();
@@ -33,7 +34,7 @@ public class Operators {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // setting edge lengths to distances of first agent,
         // then iterate through the rest to find shortest distance for each dimension
-        Iterator<Agent> frontIterator = front.iterator();
+        Iterator<ZDTAgent> frontIterator = front.iterator();
         Agent firstAgent = frontIterator.next();
         Iterator<Double> firstAgentGenotypeIterator = firstAgent.getGenotype().iterator();
         Iterator<Double> testedAgentGenotypeIterator = agentGenotype.iterator();
@@ -85,6 +86,22 @@ public class Operators {
         return crowdingDistance;
     }
 
+    public static Queue<ZDTAgent> crowdingSort(List<ZDTAgent> list) {
+        List sortedAgentList = new ArrayList<>(list);
+        for (ZDTAgent a : list) {
+            try {
+                a.setCrowdingDistance(crowdingOperator(list, a));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+
+        }
+        Collections.sort(sortedAgentList, new ZDTAgent.CrowdedTournamentSelectionComparator());
+
+        return new ArrayDeque<>(sortedAgentList);
+    }
+
     /**
      * simplest crossover I could find. two go in, two new come out for a total of 4.
      *
@@ -125,6 +142,12 @@ public class Operators {
         int whichOne = r.nextInt(genotype.size() - 1); //choose which value to mutate
         genotype.set(whichOne, r.nextDouble()); //mutate
         return genotype;
+    }
 
+    public static List<ZDTAgent> tournamentQuarterSelection(List<ZDTAgent> originalPopulation) {
+        Object[] array = crowdingSort(originalPopulation).toArray();
+        Object[] array2 = Arrays.copyOfRange(array, 0, (int) (originalPopulation.size() * 0.25));
+        List l = Arrays.asList(array2);
+        return l;
     }
 }

@@ -83,31 +83,6 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
         }
     }
 
-    /**
-     * { r(i) < r(j)   ∨   ( d(i) > d(j)  ∧  r(i) = r(j) ) }.
-     *
-     * "Zgodnie z pierwszą częścią warunku, zwycięzcą turnieju staje się osobnik charakteryzowany przez niższy
-     * stopień zdominowania. W myśl zaś drugiej części warunku, w przypadku gdy osobniki charakteryzowane są
-     * przez ten sam stopień zdominowania (są zlokalizowane na tym samym n-froncie), zwycięzcą staje się
-     * osobnik zlokalizowany w mniej zatłoczonym fragmencie przestrzeni przeszukiwań."
-     */
-    public static class CrowdedTournamentSelectionComparator implements Comparator<ZDTAgent> {
-        @Override
-        public int compare(ZDTAgent o1, ZDTAgent o2) {
-            if (o1.compareTo(o2) == 1)
-                return 1;
-            else if (o1.compareTo(o2) == -1)
-                return -1;
-            else if (o1.compareTo(o2) == 0) {
-                if (o1.getCrowdingDistance() < o2.getCrowdingDistance())
-                    return 1;
-                else if (o1.getCrowdingDistance() > o2.getCrowdingDistance())
-                    return -1;
-            }
-            return 0;
-        }
-    }
-
     @Override
     public List<Double> getGenotype() {
         return genotype;
@@ -124,5 +99,32 @@ public abstract class ZDTAgent implements Agent, Comparable<ZDTAgent> {
 
     public void setCrowdingDistance(Double crowdingDistance) {
         this.crowdingDistance = crowdingDistance;
+    }
+
+    /**
+     * { r(i) < r(j)   ∨   ( d(i) > d(j)  ∧  r(i) = r(j) ) }.
+     * <p>
+     * "Zgodnie z pierwszą częścią warunku, zwycięzcą turnieju staje się osobnik charakteryzowany przez niższy
+     * stopień zdominowania. W myśl zaś drugiej części warunku, w przypadku gdy osobniki charakteryzowane są
+     * przez ten sam stopień zdominowania (są zlokalizowane na tym samym n-froncie), zwycięzcą staje się
+     * osobnik zlokalizowany w mniej zatłoczonym fragmencie przestrzeni przeszukiwań."
+     */
+    public static class CrowdedTournamentSelectionComparator implements Comparator<ZDTAgent> {
+        @Override
+        public int compare(ZDTAgent o1, ZDTAgent o2) {
+            if (o1.compareTo(o2) == 1)
+                return 1;
+            else if (o1.compareTo(o2) == -1)
+                return -1;
+            else if (o1.compareTo(o2) == 0) {
+                if (o1.getCrowdingDistance()
+                        <
+                        o2.getCrowdingDistance())
+                    return 1;
+                else if (o1.getCrowdingDistance() > o2.getCrowdingDistance())
+                    return -1;
+            }
+            return 0;
+        }
     }
 }

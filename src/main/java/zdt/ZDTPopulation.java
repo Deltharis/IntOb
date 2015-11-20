@@ -1,11 +1,10 @@
 package zdt;
 
+import nsga.Operators;
 import nsga.Population;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * ZDT1,2,3 is restricted [0,1] in values
@@ -24,6 +23,10 @@ public abstract class ZDTPopulation extends Population<ZDTAgent> {
     }
 
     protected abstract ZDTAgent createCorrectAgent();
+
+    protected abstract ZDTAgent createCorrectAgent(List<Double> genotype);
+
+    protected abstract Population createCorrectPopulation(List<ZDTAgent> agents);
 
     protected ArrayList<Double> randomDoubleList(int n) {
         ArrayList<Double> list = new ArrayList<>();
@@ -64,7 +67,25 @@ public abstract class ZDTPopulation extends Population<ZDTAgent> {
     }
 
     @Override
-    public abstract Population generateChildPopulation();
+    public Population generateChildPopulation() {
+        List<ZDTAgent> children = new ArrayList<>(Operators.tournamentQuarterSelection(getAgents())); //new needed for the list to be modifiable
+        for (int j = 0; j < 2; j++) {
+            Collections.shuffle(children);
+            int size = children.size();
+            Random r = new Random();
+            for (int i = 0; i < size; i += 2) {
+                Pair<List<Double>, List<Double>> pair = Operators.singlePointCrossover(children.get(i).getGenotype(), children.get(i + 1).getGenotype());
+                if (r.nextBoolean()) {
+                    Operators.mutate(pair.getLeft());
+                } else {
+                    Operators.mutate(pair.getRight());
+                }
+                children.add(createCorrectAgent(pair.getLeft()));
+                children.add(createCorrectAgent(pair.getRight()));
+            }
+        }
+        return createCorrectPopulation(children);
+    }
 
     //TODO #lowpriority make this method return a copy maybe? or create a method for copy? would be prettier. Should work either way.
     @Override

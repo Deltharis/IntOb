@@ -2,10 +2,20 @@ package zdt.zdt1;
 
 import zdt.ZDTAgent;
 
+import java.util.List;
+
 /**
  * Created by Delth on 18.11.2015.
  */
 public class ZDT1Agent extends ZDTAgent {
+
+    public ZDT1Agent() {
+    }
+
+    public ZDT1Agent(List<Double> genotype) {
+        setGenotype(genotype);
+    }
+
     @Override
     protected double h(double f1, double g) {
         return (1 - Math.sqrt(f1 / g));
@@ -22,5 +32,10 @@ public class ZDT1Agent extends ZDTAgent {
 
         }
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "ZDT1Agent{fitness = " + getFitness() + " }";
     }
 }

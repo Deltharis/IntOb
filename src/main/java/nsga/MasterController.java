@@ -10,7 +10,8 @@ import java.util.Queue;
  */
 public abstract class MasterController {
 
-    protected static final int POPULATION_SIZE = 10;
+    //set as divisible by 8 for now
+    protected static final int POPULATION_SIZE = 64;
 
     protected Population currentPopulation;
     protected Population childPopulation;
@@ -20,13 +21,20 @@ public abstract class MasterController {
 
     public void start() {
         init();
-        while (!endCondition) { //TODO no end condition?
+        int i = 0;
+        while (!endCondition) { //TODO better end condition
+
             step1();
             step2();
             List<ZDTAgent> leftOverFront = step3();
             step4(leftOverFront);
             step5();
+            i++;
+            if (i > 500) {
+                endCondition = true;
+            }
         }
+        System.out.println(currentPopulation);
     }
 
     /**
@@ -92,7 +100,7 @@ public abstract class MasterController {
      */
     private void step4(List<ZDTAgent> front) {
         if (nextPopulation.getSize() != POPULATION_SIZE) {
-            Queue<ZDTAgent> queue = crowdingSort(front);
+            Queue<ZDTAgent> queue = Operators.crowdingSort(front);
             while (nextPopulation.getSize() != POPULATION_SIZE) {
                 nextPopulation.add(queue.poll());
             }
@@ -112,6 +120,4 @@ public abstract class MasterController {
     }
 
     protected abstract Population newRandomPopulation(int size);
-
-    protected abstract Queue<ZDTAgent> crowdingSort(List<ZDTAgent> list);
 }
